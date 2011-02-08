@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uf_extractor", "uf_extractor\uf_extractor.csproj", "{BE8F18E8-0606-4FFB-97AF-7D47BEA5233B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE8F18E8-0606-4FFB-97AF-7D47BEA5233B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE8F18E8-0606-4FFB-97AF-7D47BEA5233B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE8F18E8-0606-4FFB-97AF-7D47BEA5233B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE8F18E8-0606-4FFB-97AF-7D47BEA5233B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {82F84B40-EED0-45EF-9415-F38E7ECF0202}
+	EndGlobalSection
+EndGlobal

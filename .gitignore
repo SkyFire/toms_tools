@@ -1,0 +1,9 @@
+*.pdb
+*.cache
+*.suo
+*.config
+*.dat
+*.tlog
+*.resources
+*.manifest
+*.txt

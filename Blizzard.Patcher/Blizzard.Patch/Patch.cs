@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Blizzard
 {
@@ -98,7 +99,7 @@ namespace Blizzard
             List<byte> ret = new List<byte>();
 
             using (MemoryStream ms = new MemoryStream(m_compressedDiff))
-            using (BinaryReader br = new BinaryReader(ms))
+            using (BinaryReader br = new BinaryReader(ms, Encoding.ASCII))
             {
                 while (br.PeekChar() >= 0)
                 {

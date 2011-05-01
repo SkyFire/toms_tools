@@ -44,7 +44,7 @@ namespace SimpleEnumExtractor {
 			        ExtractEnum("ResponseCodes", "CHAR_NAME_DECLENSION_DOESNT_MATCH_BASE_NAME",
 			                    "RESPONSE_SUCCESS");
 			        ExtractEnum("ChatNotify", "VOICE_OFF", "YOU_CHANGED", a => string.Format("CHAT_{0}_NOTICE", a), 0);
-			        //ExtractEnum("OpCodes", "NUM_MSG_TYPES", "MSG_NULL_ACTION");
+			        ExtractEnum("OpCodes", "NUM_MSG_TYPES", "MSG_NULL_ACTION");
 			        ExtractEnum("SpellFailedReason", "SPELL_FAILED_UNKNOWN",
 			                    "SPELL_FAILED_SUCCESS");
 			        ExtractEnum("EnchantConditions", "ENCHANT_CONDITION_REQUIRES",

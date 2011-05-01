@@ -41,7 +41,7 @@ namespace WoWPacketViewer.Parsers.Warden
             foreach (string s in strings)
                 sb.AppendLine(s);
             sb.AppendLine();
-            sb.AppendLine(Utility.PrintHex(checks, 0, checks.Length));
+            sb.AppendLine(checks.HexLike(0, checks.Length));
             return sb.ToString();
         }
 

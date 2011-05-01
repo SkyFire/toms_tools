@@ -11,7 +11,7 @@ namespace WoWPacketViewer.Parsers
         {
         }
 
-        public override string Parse()
+        public override void Parse()
         {
             var gr = Packet.CreateReader();
 
@@ -43,7 +43,7 @@ namespace WoWPacketViewer.Parsers
                     // splinesCount = 1;
                     // and returns
                     CheckPacket(gr);
-                    return GetParsedString();
+                    return;
                 case SplineType.FacingSpot:
                     AppendFormatLine("Facing Point: {0}", gr.ReadCoords3());
                     break;
@@ -149,8 +149,6 @@ namespace WoWPacketViewer.Parsers
             #endregion
 
             CheckPacket(gr);
-
-            return GetParsedString();
         }
     }
 }

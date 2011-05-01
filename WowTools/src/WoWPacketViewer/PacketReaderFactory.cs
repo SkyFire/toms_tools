@@ -6,6 +6,7 @@ namespace WoWPacketViewer
         {
             switch (extension)
             {
+                case ".pkt":
                 case ".bin":
                     return new WowCorePacketReader();
                 case ".sqlite":

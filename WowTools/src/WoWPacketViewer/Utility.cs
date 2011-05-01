@@ -1,25 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
+using WowTools.Core;
 
 namespace WoWPacketViewer
 {
-    public class Utility
+    public static class Extensions
     {
-        public static byte[] HexStringToBinary(string data)
+        public static byte[] ToByteArray(this string data)
         {
             var bytes = new List<byte>();
             for (var i = 0; i < data.Length; i += 2)
-            {
                 bytes.Add(Byte.Parse(data.Substring(i, 2), NumberStyles.HexNumber));
-            }
             return bytes.ToArray();
         }
 
-        public static string ByteArrayToHexString(byte[] data)
+        public static string ToHexString(this byte[] data)
         {
             var str = String.Empty;
             for (var i = 0; i < data.Length; ++i)
@@ -27,7 +26,7 @@ namespace WoWPacketViewer
             return str;
         }
 
-        public static string PrintHex(byte[] data, int start, int size)
+        public static string HexLike(this byte[] data, int start, int size)
         {
             var result = String.Empty;
             var counter = start;
@@ -50,19 +49,20 @@ namespace WoWPacketViewer
             return result;
         }
 
-        public static byte[] Decompress(byte[] data)
+        public static byte[] Decompress(this byte[] data)
         {
             var uncompressedLength = BitConverter.ToUInt32(data, 0);
             var output = new byte[uncompressedLength];
 
-            var dStream = new DeflateStream(new MemoryStream(data, 6, data.Length - 6), CompressionMode.Decompress);
-            dStream.Read(output, 0, output.Length);
-            dStream.Close();
-
+            using (var ms = new MemoryStream(data, 6, data.Length - 6))
+            using (var ds = new DeflateStream(ms, CompressionMode.Decompress))
+            {
+                ds.Read(output, 0, output.Length);
+            }
             return output;
         }
 
-        public static string HexLike(Packet packet)
+        public static string HexLike(this Packet packet)
         {
             var length = packet.Data.Length;
             var dir = (packet.Direction == Direction.Client) ? "C->S" : "S->C";

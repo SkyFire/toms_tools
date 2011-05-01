@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using WowTools.Core;
 
 namespace WoWPacketViewer
 {

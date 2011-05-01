@@ -75,7 +75,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Direction.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,10 +89,7 @@
     </Compile>
     <Compile Include="IPacketReader.cs" />
     <Compile Include="ISupportFind.cs" />
-    <Compile Include="Packet.cs" />
     <Compile Include="PacketReaderFactory.cs" />
-    <Compile Include="Parser.cs" />
-    <Compile Include="ParserAttribute.cs" />
     <Compile Include="ParserFactory.cs" />
     <Compile Include="Parsers\AuraUpdateParser.cs" />
     <Compile Include="Parsers\AuthSession.cs" />
@@ -105,6 +101,9 @@
     <Compile Include="Parsers\MonsterMoveParser.cs" />
     <Compile Include="Parsers\PetSpellsParser.cs" />
     <Compile Include="Parsers\PowerUpdateParser.cs" />
+    <Content Include="Parsers\SMSG_TUTORIAL_FLAGS.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Parsers\Spells\CastFlags.cs" />
     <Compile Include="Parsers\Spells\CooldownMask.cs" />
     <Compile Include="Parsers\Spells\SpellGoParser.cs" />

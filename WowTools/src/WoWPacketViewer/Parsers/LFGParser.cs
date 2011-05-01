@@ -24,7 +24,8 @@ namespace WoWPacketViewer.Parsers
         DAMAGE = 8
     };
 
-    //[Parser(OpCodes.MSG_LOOKING_FOR_GROUP)]
+    [Parser(OpCodes.CMSG_LFG_SEARCH_JOIN)]
+    [Parser(OpCodes.SMSG_LFG_SEARCH_RESULTS)]
     internal class LookingForGroupParser : Parser
     {
         public LookingForGroupParser(Packet packet)
@@ -32,7 +33,7 @@ namespace WoWPacketViewer.Parsers
         {
         }
 
-        public override string Parse()
+        public override void Parse()
         {
             var gr = Packet.CreateReader();
 
@@ -53,8 +54,6 @@ namespace WoWPacketViewer.Parsers
             }
 
             CheckPacket(gr);
-
-            return GetParsedString();
         }
 
         void ParseServerLookingForGroup(BinaryReader gr)

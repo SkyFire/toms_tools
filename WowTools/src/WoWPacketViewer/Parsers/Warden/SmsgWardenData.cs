@@ -14,7 +14,7 @@ namespace WoWPacketViewer.Parsers.Warden
         {
         }
 
-        public override string Parse()
+        public override void Parse()
         {
             BinaryReader gr = Packet.CreateReader();
 
@@ -32,8 +32,8 @@ namespace WoWPacketViewer.Parsers.Warden
                         var md5 = gr.ReadBytes(16); // md5
                         var rc4 = gr.ReadBytes(16); // rc4 key
                         var len = gr.ReadInt32();   // len
-                        AppendFormatLine("MD5: 0x{0}", Utility.ByteArrayToHexString(md5));
-                        AppendFormatLine("RC4: 0x{0}", Utility.ByteArrayToHexString(rc4));
+                        AppendFormatLine("MD5: 0x{0}", md5.ToHexString());
+                        AppendFormatLine("RC4: 0x{0}", rc4.ToHexString());
                         AppendFormatLine("Len: {0}", len);
                         AppendLine();
                     }
@@ -61,7 +61,7 @@ namespace WoWPacketViewer.Parsers.Warden
 
                             AppendFormatLine("Len: {0}", len);
                             AppendFormatLine("Checksum: 0x{0:X8} {1}", checkSum, WardenData.ValidateCheckSum(checkSum, data));
-                            AppendFormatLine("Data: 0x{0}", Utility.ByteArrayToHexString(data));
+                            AppendFormatLine("Data: 0x{0}", data.ToHexString());
                             AppendLine();
                         }
                     }
@@ -70,7 +70,7 @@ namespace WoWPacketViewer.Parsers.Warden
                     {
                         var opcode = gr.ReadByte();
                         var seed = gr.ReadBytes(16);
-                        AppendFormatLine("Seed: 0x{0}", Utility.ByteArrayToHexString(seed));
+                        AppendFormatLine("Seed: 0x{0}", seed.ToHexString());
                         AppendLine();
                     }
                     break;
@@ -80,8 +80,6 @@ namespace WoWPacketViewer.Parsers.Warden
             }
 
             CheckPacket(gr);
-
-            return GetParsedString();
         }
 
         private void Parse_CHEAT_CHECKS(BinaryReader gr)
@@ -165,7 +163,7 @@ namespace WoWPacketViewer.Parsers.Warden
             //AppendFormatLine("====== DRIVER_CHECK END ======");
             //AppendLine();
 
-            AppendFormatLine("INSERT INTO warden_data_result (`check`,`data`,`address`,`length`,`str`,`result`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", checkType, Utility.ByteArrayToHexString(BitConverter.GetBytes(seed)) + Utility.ByteArrayToHexString(sha1), "", "", strings[stringIndex], "");
+            AppendFormatLine("INSERT INTO warden_data_result (`check`,`data`,`address`,`length`,`str`,`result`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", checkType, BitConverter.GetBytes(seed).ToHexString() + sha1.ToHexString(), "", "", strings[stringIndex], "");
 
             WardenData.CheckInfos.Add(new CheckInfo(WardenData.CheckTypes[checkType], 0));
         }
@@ -234,7 +232,7 @@ namespace WoWPacketViewer.Parsers.Warden
             //AppendFormatLine("====== PAGE_CHECK_A_B END ======");
             //AppendLine();
 
-            AppendFormatLine("INSERT INTO warden_data_result (`check`,`data`,`address`,`length`,`str`,`result`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", checkType, Utility.ByteArrayToHexString(BitConverter.GetBytes(seed)) + Utility.ByteArrayToHexString(sha1), addr, bytesToRead, "", "");
+            AppendFormatLine("INSERT INTO warden_data_result (`check`,`data`,`address`,`length`,`str`,`result`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", checkType, BitConverter.GetBytes(seed).ToHexString() + sha1.ToHexString(), addr, bytesToRead, "", "");
 
             WardenData.CheckInfos.Add(new CheckInfo(WardenData.CheckTypes[checkType], 0));
         }

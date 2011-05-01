@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -66,9 +65,9 @@ namespace WoWPacketViewer
 
             var packet = packets[SelectedIndex];
 
-            textBox1.Text = Utility.HexLike(packet);
+            textBox1.Text = packet.HexLike();
             var parser = ParserFactory.CreateParser(packet);
-            textBox2.Text = parser.Parse();
+            textBox2.Text = parser.ToString();
         }
 
         private void OpenMenu_Click(object sender, EventArgs e)
@@ -119,7 +118,7 @@ namespace WoWPacketViewer
             {
                 foreach (var p in packets)
                 {
-                    stream.Write(Utility.HexLike(p));
+                    stream.Write(p.HexLike());
                 }
             }
         }
@@ -169,7 +168,7 @@ namespace WoWPacketViewer
             {
                 foreach (var p in packets)
                 {
-                    string parsed = ParserFactory.CreateParser(p).Parse();
+                    string parsed = ParserFactory.CreateParser(p).ToString();
                     if (String.IsNullOrEmpty(parsed))
                         continue;
                     stream.Write(parsed);
@@ -198,7 +197,7 @@ namespace WoWPacketViewer
                         continue;
                     //stream.Write(Utility.HexLike(p));
 
-                    var parsed = ParserFactory.CreateParser(p).Parse();
+                    var parsed = ParserFactory.CreateParser(p).ToString();
                     if (String.IsNullOrEmpty(parsed))
                         continue;
                     stream.Write(parsed);
@@ -300,6 +299,11 @@ namespace WoWPacketViewer
                             p.Code.ToString(), 
                             p.Data.Length.ToString()
                         });
+        }
+
+        private void reloadDefinitionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ParserFactory.ReInit();
         }
     }
 }

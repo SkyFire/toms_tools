@@ -98,6 +98,7 @@ namespace UpdatePacketParser
             richTextBox1.Clear();
             switch (Path.GetExtension(filename))
             {
+                case ".pkt":
                 case ".bin":
                     m_parser = new Parser(new WowCorePacketReader(filename));
                     break;

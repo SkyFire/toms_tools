@@ -4,7 +4,7 @@ using WowTools.Core;
 
 namespace WoWPacketViewer.Parsers
 {
-    [Parser(OpCodes.SMSG_INSPECT_TALENT)]
+    [Parser(OpCodes.SMSG_INSPECT_RESULTS)]
     internal class InspectTalentParser : Parser
     {
         public InspectTalentParser(Packet packet)
@@ -12,7 +12,7 @@ namespace WoWPacketViewer.Parsers
         {
         }
 
-        public override string Parse()
+        public override void Parse()
         {
             var gr = Packet.CreateReader();
 
@@ -66,8 +66,6 @@ namespace WoWPacketViewer.Parsers
             }
 
             CheckPacket(gr);
-
-            return GetParsedString();
         }
     }
 }

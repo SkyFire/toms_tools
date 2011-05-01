@@ -23,7 +23,7 @@ namespace WoWPacketViewer
             {
                 var direction = (string)packet.Attribute("direction") == "S2C" ? Direction.Server : Direction.Client;
                 var opcode = (OpCodes)(uint)packet.Attribute("opcode");
-                packets.Add(new Packet(direction, opcode, Utility.HexStringToBinary(packet.Value), 0, 0));
+                packets.Add(new Packet(direction, opcode, packet.Value.ToByteArray(), 0, 0));
             }
             return packets;
         }

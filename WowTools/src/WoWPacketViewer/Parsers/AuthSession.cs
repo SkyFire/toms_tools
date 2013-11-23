@@ -1,32 +1,23 @@
-﻿using System;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 using WowTools.Core;
 
 namespace WoWPacketViewer.Parsers
 {
     [Parser(OpCodes.CMSG_AUTH_SESSION)]
-    internal class CMSG_AUTH_SESSION : Parser
+    class CMSG_AUTH_SESSION : Parser
     {
-        public CMSG_AUTH_SESSION(Packet packet)
-            : base(packet)
-        {
-        }
-
         public override void Parse()
         {
-            var gr = Packet.CreateReader();
-
-            var clientBuild = gr.ReadUInt32();
-            var unk1 = gr.ReadUInt32();
-            var account = gr.ReadCString();
-            var unk2 = gr.ReadUInt32();
-            var clientSeed = gr.ReadUInt32();
-            var unk4 = gr.ReadUInt32();
-            var unk5 = gr.ReadUInt32();
-            var unk6 = gr.ReadUInt32();
-            var unk3 = gr.ReadUInt64();
-            var digest = gr.ReadBytes(20);
+            var clientBuild = Reader.ReadUInt32();
+            var unk1 = Reader.ReadUInt32();
+            var account = Reader.ReadCString();
+            var unk2 = Reader.ReadUInt32();
+            var clientSeed = Reader.ReadUInt32();
+            var unk4 = Reader.ReadUInt32();
+            var unk5 = Reader.ReadUInt32();
+            var unk6 = Reader.ReadUInt32();
+            var unk3 = Reader.ReadUInt64();
+            var digest = Reader.ReadBytes(20);
 
             AppendFormatLine("Client Build: {0}", clientBuild);
             AppendFormatLine("Unk1: {0}", unk1);
@@ -40,11 +31,11 @@ namespace WoWPacketViewer.Parsers
             AppendFormatLine("Digest: {0}", digest.ToHexString());
 
             // addon info
-            var addonData = gr.ReadBytes((int)gr.BaseStream.Length - (int)gr.BaseStream.Position);
+            var addonData = Reader.ReadBytes((int)Reader.BaseStream.Length - (int)Reader.BaseStream.Position);
             var decompressed = addonData.Decompress();
 
             AppendFormatLine("Decompressed addon data:");
-            AppendFormatLine(decompressed.HexLike(0, decompressed.Length));
+            AppendFormat(decompressed.HexLike(0, decompressed.Length));
 
             using (var reader = new BinaryReader(new MemoryStream(decompressed)))
             {
@@ -63,8 +54,6 @@ namespace WoWPacketViewer.Parsers
                 AppendFormatLine("Unk5: {0}", unk8);
             }
             // addon info end
-
-            CheckPacket(gr);
         }
     }
 }

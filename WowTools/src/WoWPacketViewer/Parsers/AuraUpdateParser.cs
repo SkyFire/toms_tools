@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Text;
 using WowTools.Core;
 
 namespace WoWPacketViewer.Parsers
 {
     [Parser(OpCodes.SMSG_AURA_UPDATE)]
     [Parser(OpCodes.SMSG_AURA_UPDATE_ALL)]
-    internal class AuraUpdateParser : Parser
+    class AuraUpdateParser : Parser
     {
         [Flags]
         private enum AuraFlags : byte
@@ -22,49 +21,36 @@ namespace WoWPacketViewer.Parsers
             Negative = 0x80,
         }
 
-        public AuraUpdateParser(Packet packet)
-            : base(packet)
-        {
-        }
-
         public override void Parse()
         {
-            var gr = Packet.CreateReader();
+            ReadPackedGuid("GUID: {0:X16}");
 
-            AppendFormatLine("GUID: {0:X16}", gr.ReadPackedGuid());
-
-            while (gr.BaseStream.Position < gr.BaseStream.Length)
+            while (Reader.BaseStream.Position < Reader.BaseStream.Length)
             {
-                AppendFormatLine("Slot: {0:X2}", gr.ReadByte());
+                ReadUInt8("Slot: {0:X2}");
 
-                var spellId = gr.ReadUInt32();
-                AppendFormatLine("Spell: {0:X8}", spellId);
+                var spellId = ReadUInt32("Spell: {0:X8}");
 
-                if (spellId > 0)
+                if (spellId != 0)
                 {
-                    var af = (AuraFlags)gr.ReadByte();
-                    AppendFormatLine("Flags: {0}", af);
+                    var af = ReadUInt8<AuraFlags>("Flags: {0}");
 
-                    AppendFormatLine("Level: {0:X2}", gr.ReadByte());
+                    ReadUInt8("Level: {0:X2}");
+                    ReadUInt8("Charges: {0:X2}");
 
-                    AppendFormatLine("Charges: {0:X2}", gr.ReadByte());
-
-                    if (af.HasFlag(AuraFlags.NotOwner) == false)
+                    if (!af.HasFlag(AuraFlags.NotOwner))
                     {
-                        AppendFormatLine("GUID2: {0:X16}", gr.ReadPackedGuid());
+                        ReadPackedGuid("GUID2: {0:X16}");
                     }
 
                     if (af.HasFlag(AuraFlags.Duration))
                     {
-                        AppendFormatLine("Full duration: {0:X8}", gr.ReadUInt32());
-
-                        AppendFormatLine("Rem. duration: {0:X8}", gr.ReadUInt32());
+                        ReadUInt32("Full duration: {0:X8}");
+                        ReadUInt32("Rem. duration: {0:X8}");
                     }
                 }
                 AppendLine();
             }
-
-            CheckPacket(gr);
         }
     }
 }

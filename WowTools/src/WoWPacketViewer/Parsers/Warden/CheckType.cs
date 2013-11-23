@@ -1,6 +1,6 @@
 namespace WoWPacketViewer.Parsers.Warden
 {
-    internal enum CheckType
+    enum CheckType
     {
         MEM_CHECK = 0,      // byte strIndex + uint Offset + byte Len (checks to ensure memory isn't modified?)
         PAGE_CHECK_A = 1,   // uint Seed + byte[20] SHA1 + uint Addr + byte Len

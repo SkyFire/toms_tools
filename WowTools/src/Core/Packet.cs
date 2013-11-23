@@ -27,5 +27,11 @@ namespace WowTools.Core
         {
             return new BinaryReader(new MemoryStream(Data));
         }
+
+        public void DecompressDataAndSetOpcode(OpCodes opcode)
+        {
+            Data = Data.Decompress();
+            Code = opcode;
+        }
     }
 }

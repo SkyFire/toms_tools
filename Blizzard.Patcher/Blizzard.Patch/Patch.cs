@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
@@ -12,16 +11,18 @@ namespace Blizzard
         PTCH m_PTCH;
         MD5_ m_MD5;
         XFRM m_XFRM;
-        BSDIFF40 m_BSDIFF40;
 
         // BSD0
-        uint m_unpackedSize;
-        byte[] m_compressedDiff;
+        int m_unpackedSize;
+        MemoryStream m_compressedDiffStream;
 
         // BSDIFF40
-        byte[] m_ctrlBlock, m_diffBlock, m_extraBlock;
+        BinaryReader m_ctrlBlock;
+        MemoryStream m_diffBlock, m_extraBlock;
 
         string m_type;
+
+        public string PatchType { get { return m_type; } }
 
         public Patch(string patchFile)
         {
@@ -29,7 +30,10 @@ namespace Blizzard
             using (BinaryReader br = new BinaryReader(fs))
             {
                 m_PTCH = br.ReadStruct<PTCH>();
-                Debug.Assert(m_PTCH.m_magic.FourCC() == "PTCH");
+                //Debug.Assert(m_PTCH.m_magic.FourCC() == "PTCH");
+
+                if (m_PTCH.m_magic.FourCC() != "PTCH")
+                    throw new InvalidDataException("not PTCH");
 
                 m_MD5 = br.ReadStruct<MD5_>();
                 Debug.Assert(m_MD5.m_magic.FourCC() == "MD5_");
@@ -42,12 +46,12 @@ namespace Blizzard
                 switch (m_type)
                 {
                     case "BSD0":
-                        m_unpackedSize = br.ReadUInt32();
-                        m_compressedDiff = br.ReadRemaining();
+                        m_unpackedSize = br.ReadInt32();
+                        m_compressedDiffStream = new MemoryStream(br.ReadRemaining());
                         BSDIFFParse();
                         break;
                     case "COPY":
-                        m_compressedDiff = br.ReadRemaining();
+                        m_compressedDiffStream = new MemoryStream(br.ReadRemaining());
                         return;
                     default:
                         Debug.Assert(false, String.Format("Unknown patch type: {0}", m_type));
@@ -58,7 +62,17 @@ namespace Blizzard
 
         public void Dispose()
         {
-            // TODO
+            if (m_compressedDiffStream != null)
+                m_compressedDiffStream.Close();
+
+            if (m_ctrlBlock != null)
+                m_ctrlBlock.Close();
+
+            if (m_diffBlock != null)
+                m_diffBlock.Close();
+
+            if (m_extraBlock != null)
+                m_extraBlock.Close();
         }
 
         public void PrintHeaders()
@@ -68,97 +82,111 @@ namespace Blizzard
             Console.WriteLine("XFRM: xfrmBlockSize {0}, patch type: {1}", m_XFRM.m_xfrmBlockSize, m_XFRM.m_type.FourCC());
         }
 
-        private void BSDIFFParseHeader(BinaryReader br)
-        {
-            m_BSDIFF40 = br.ReadStruct<BSDIFF40>();
-
-            Debug.Assert(m_BSDIFF40.m_magic.FourCC() == "BSDIFF40");
-
-            Debug.Assert(m_BSDIFF40.m_ctrlBlockSize > 0 && m_BSDIFF40.m_diffBlockSize > 0);
-
-            Debug.Assert(m_BSDIFF40.m_sizeAfter == m_PTCH.m_sizeAfter);
-        }
-
         private void BSDIFFParse()
         {
-            var diff = RLEUnpack();
-
-            using (MemoryStream ms = new MemoryStream(diff))
+            using (MemoryStream ms = RLEUnpack())
             using (BinaryReader br = new BinaryReader(ms))
             {
-                BSDIFFParseHeader(br);
+                BSDIFF40 m_BSDIFF40 = br.ReadStruct<BSDIFF40>();
 
-                m_ctrlBlock = br.ReadBytes((int)m_BSDIFF40.m_ctrlBlockSize);
-                m_diffBlock = br.ReadBytes((int)m_BSDIFF40.m_diffBlockSize);
-                m_extraBlock = br.ReadRemaining();
+                Debug.Assert(m_BSDIFF40.m_magic.FourCC() == "BSDIFF40");
+
+                Debug.Assert(m_BSDIFF40.m_ctrlBlockSize > 0 && m_BSDIFF40.m_diffBlockSize > 0);
+
+                Debug.Assert(m_BSDIFF40.m_sizeAfter == m_PTCH.m_sizeAfter);
+
+                m_ctrlBlock = br.ReadBytes((int)m_BSDIFF40.m_ctrlBlockSize).ToBinaryReader();
+                m_diffBlock = new MemoryStream(br.ReadBytes((int)m_BSDIFF40.m_diffBlockSize));
+                m_extraBlock = new MemoryStream(br.ReadRemaining());
             }
         }
 
-        private byte[] RLEUnpack()
+        private MemoryStream RLEUnpack()
         {
-            List<byte> ret = new List<byte>();
+            MemoryStream ret = new MemoryStream(m_unpackedSize);
 
-            using (MemoryStream ms = new MemoryStream(m_compressedDiff))
-            using (BinaryReader br = new BinaryReader(ms, Encoding.ASCII))
+            using (BinaryReader br = new BinaryReader(m_compressedDiffStream, Encoding.ASCII))
             {
                 while (br.PeekChar() >= 0)
                 {
                     byte b = br.ReadByte();
                     if ((b & 0x80) != 0)
-                        ret.AddRange(br.ReadBytes((b & 0x7F) + 1));
+                    {
+                        var bytes = br.ReadBytes((b & 0x7F) + 1);
+                        ret.Write(bytes, 0, bytes.Length);
+                    }
                     else
-                        ret.AddRange(new byte[b + 1]);
+                    {
+                        var bytes = new byte[b + 1];
+                        ret.Write(bytes, 0, bytes.Length);
+                    }
+
                 }
             }
 
-            Debug.Assert(ret.Count == m_unpackedSize);
+            Debug.Assert(ret.Length == m_unpackedSize);
 
-            return ret.ToArray();
+            ret.Position = 0;
+            return ret;
         }
 
         public void Apply(string oldFileName, string newFileName, bool validate)
         {
             if (m_type == "COPY")
             {
-                File.WriteAllBytes(newFileName, m_compressedDiff);
+                using (var fs = File.OpenWrite(newFileName))
+                {
+                    m_compressedDiffStream.CopyTo(fs);
+                }
                 return;
             }
 
-            byte[] oldFile = File.ReadAllBytes(oldFileName);
+            var oldFileStream = File.OpenRead(oldFileName);
 
             if (validate)            // pre-validate
             {
-                Debug.Assert(oldFile.Length == m_PTCH.m_sizeBefore);
+                Debug.Assert(oldFileStream.Length == m_PTCH.m_sizeBefore);
                 MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-                var hash = md5.ComputeHash(oldFile);
+                var hash = md5.ComputeHash(oldFileStream);
                 Debug.Assert(hash.Compare(m_MD5.m_md5Before), "Input MD5 mismatch!");
+                oldFileStream.Position = 0;
             }
 
-            var ctrlBlock = m_ctrlBlock.ToBinaryReader();
-            var diffBlock = m_diffBlock.ToBinaryReader();
-            var extraBlock = m_extraBlock.ToBinaryReader();
+            string dir = Path.GetDirectoryName(newFileName);
 
-            byte[] newFile = new byte[m_PTCH.m_sizeAfter];
+            if (!Directory.Exists(dir) && !String.IsNullOrWhiteSpace(dir))
+                Directory.CreateDirectory(dir);
+
+            var newFileStream = File.Open(newFileName, FileMode.Create);
 
             int newFileOffset = 0, oldFileOffset = 0;
 
             while (newFileOffset < m_PTCH.m_sizeAfter)
             {
-                var diffChunkSize = ctrlBlock.ReadInt32();
-                var extraChunkSize = ctrlBlock.ReadInt32();
-                var extraOffset = ctrlBlock.ReadUInt32();
+                var diffChunkSize = m_ctrlBlock.ReadInt32();
+                var extraChunkSize = m_ctrlBlock.ReadInt32();
+                var extraOffset = m_ctrlBlock.ReadUInt32();
 
                 Debug.Assert(newFileOffset + diffChunkSize <= m_PTCH.m_sizeAfter);
 
-                newFile.SetBytes(diffBlock.ReadBytes(diffChunkSize), newFileOffset);
+                byte[] newChunk = new byte[diffChunkSize];
+                m_diffBlock.Read(newChunk, 0, diffChunkSize);
+                newFileStream.Write(newChunk, 0, diffChunkSize);
+
+                byte[] oldChunk = new byte[diffChunkSize];
+                oldFileStream.Position = oldFileOffset;
+                oldFileStream.Read(oldChunk, 0, diffChunkSize);
+
+                newFileStream.Position = newFileOffset;
 
                 for (int i = 0; i < diffChunkSize; ++i)
                 {
                     if ((oldFileOffset + i >= 0) && (oldFileOffset + i < m_PTCH.m_sizeBefore))
                     {
-                        var nb = newFile[newFileOffset + i];
-                        var ob = oldFile[oldFileOffset + i];
-                        newFile[newFileOffset + i] = (byte)((nb + ob) % 256);
+                        var nb = newChunk[i];
+                        var ob = oldChunk[i];
+
+                        newFileStream.WriteByte((byte)((nb + ob) % 256));
                     }
                 }
 
@@ -167,25 +195,25 @@ namespace Blizzard
 
                 Debug.Assert(newFileOffset + extraChunkSize <= m_PTCH.m_sizeAfter);
 
-                newFile.SetBytes(extraBlock.ReadBytes(extraChunkSize), newFileOffset);
+                byte[] extraChunk = new byte[extraChunkSize];
+                m_extraBlock.Read(extraChunk, 0, extraChunkSize);
+                newFileStream.Write(extraChunk, 0, extraChunkSize);
 
                 newFileOffset += extraChunkSize;
                 oldFileOffset += (int)xsign(extraOffset);
             }
 
-            ctrlBlock.Close();
-            diffBlock.Close();
-            extraBlock.Close();
-
             if (validate)            // post-validate
             {
-                Debug.Assert(newFile.Length == m_PTCH.m_sizeAfter);
+                newFileStream.Position = 0;
+                Debug.Assert(newFileStream.Length == m_PTCH.m_sizeAfter);
                 MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-                var hash = md5.ComputeHash(newFile);
+                var hash = md5.ComputeHash(newFileStream);
                 Debug.Assert(hash.Compare(m_MD5.m_md5After), "Output MD5 mismatch!");
             }
 
-            File.WriteAllBytes(newFileName, newFile);
+            oldFileStream.Close();
+            newFileStream.Close();
         }
 
         private static uint xsign(uint i)

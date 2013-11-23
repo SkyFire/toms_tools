@@ -1,71 +1,60 @@
-﻿using System;
-using System.Text;
-using WowTools.Core;
+﻿using WowTools.Core;
 
 namespace WoWPacketViewer.Parsers
 {
     [Parser(OpCodes.SMSG_INSPECT_RESULTS)]
-    internal class InspectTalentParser : Parser
+    class InspectTalentParser : Parser
     {
-        public InspectTalentParser(Packet packet)
-            : base(packet)
-        {
-        }
-
         public override void Parse()
         {
-            var gr = Packet.CreateReader();
-
-            AppendFormatLine("GUID: {0:X16}", gr.ReadPackedGuid());
-            AppendFormatLine("Free talent points: {0}", gr.ReadUInt32());
-            var talentGroupsCount = gr.ReadByte();
+            AppendFormatLine("GUID: {0:X16}", Reader.ReadPackedGuid());
+            AppendFormatLine("Free talent points: {0}", Reader.ReadUInt32());
+            var talentGroupsCount = Reader.ReadByte();
             AppendFormatLine("Talent groups count: {0}", talentGroupsCount);
-            AppendFormatLine("Talent group index: {0}", gr.ReadByte());
+            AppendFormatLine("Talent group index: {0}", Reader.ReadByte());
 
             if (talentGroupsCount > 0)
             {
-                var talentsCount = gr.ReadByte();
+                var talentsCount = Reader.ReadByte();
                 AppendFormatLine("Talents count {0}", talentsCount);
 
                 for (var i = 0; i < talentsCount; ++i)
                 {
-                    AppendFormatLine("Talent {0}: id {1}, rank {2}", i, gr.ReadUInt32(), gr.ReadByte());
+                    AppendFormatLine("Talent {0}: id {1}, rank {2}", i, Reader.ReadUInt32(), Reader.ReadByte());
                 }
 
-                var glyphsCount = gr.ReadByte();
+                var glyphsCount = Reader.ReadByte();
                 AppendFormatLine("Glyphs count {0}", glyphsCount);
 
                 for (var i = 0; i < glyphsCount; ++i)
                 {
-                    AppendFormatLine("Glyph {0}: id {1}", i, gr.ReadUInt16());
+                    AppendFormatLine("Glyph {0}: id {1}", i, Reader.ReadUInt16());
                 }
             }
 
-            var slotUsedMask = gr.ReadUInt32();
+            var slotUsedMask = Reader.ReadUInt32();
 
             for (var i = 0; i < 19; ++i)    // max equip slot
             {
                 if (((1 << i) & slotUsedMask) != 0)
                 {
-                    AppendFormatLine("Item {0}: entry {1}", i, gr.ReadUInt32());
+                    AppendFormatLine("Item {0}: entry {1}", i, Reader.ReadUInt32());
 
-                    var enchantmentMask = gr.ReadUInt16();
+                    var enchantmentMask = Reader.ReadUInt16();
 
                     for (var j = 0; j < 12; ++j)    // max enchantments
                     {
                         if (((1 << j) & enchantmentMask) != 0)
                         {
-                            AppendFormatLine("Item {0}: enchant {1}, id {2}", i, j, gr.ReadUInt16());
+                            AppendFormatLine("Item {0}: enchant {1}, id {2}", i, j, Reader.ReadUInt16());
                         }
                     }
 
-                    AppendFormatLine("Item {0}: unk1 {1:X4}", i, gr.ReadUInt16());
-                    AppendFormatLine("Item {0}: unk2 {1:X16}", i, gr.ReadPackedGuid());
-                    AppendFormatLine("Item {0}: unk3 {1:X8}", i, gr.ReadUInt32());
+                    AppendFormatLine("Item {0}: unk1 {1:X4}", i, Reader.ReadUInt16());
+                    AppendFormatLine("Item {0}: unk2 {1:X16}", i, Reader.ReadPackedGuid());
+                    AppendFormatLine("Item {0}: unk3 {1:X8}", i, Reader.ReadUInt32());
                 }
             }
-
-            CheckPacket(gr);
         }
     }
 }

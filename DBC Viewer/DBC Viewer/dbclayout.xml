@@ -136,13 +136,6 @@
     <field type="uint" name="inventorytype" />
     <field type="uint" name="sheath" />
   </Item>
-  <ItemDisplayInfo build="0">
-    <index>
-      <primary>id</primary>
-    </index>
-    <field type="int" name="id" />
-    <field type="string" name="icon" />
-  </ItemDisplayInfo>
   <ItemSet build="0">
     <index>
       <primary>id</primary>
@@ -651,7 +644,60 @@
     <field type="int" name="m_SpellShapeshiftId" />
     <field type="int" name="m_SpellTargetRestrictionsId" />
     <field type="int" name="m_SpellTotemsId" />
-    <field type="int" name="m_unk_i2" />
+    <field type="int" name="m_ResearchProjectId" />
+  </Spell>
+  <Spell build="14002">
+    <index>
+      <primary>m_ID</primary>
+    </index>
+    <field type="int" name="m_ID" />
+    <field type="uint" name="m_attributes" format="X8" />
+    <field type="uint" name="m_attributesEx" format="X8" />
+    <field type="uint" name="m_attributesExB" format="X8" />
+    <field type="uint" name="m_attributesExC" format="X8" />
+    <field type="uint" name="m_attributesExD" format="X8" />
+    <field type="uint" name="m_attributesExE" format="X8" />
+    <field type="uint" name="m_attributesExF" format="X8" />
+    <field type="uint" name="m_attributesExG" format="X8" />
+    <field type="uint" name="m_attributesExH" format="X8" />
+    <field type="uint" name="m_unk_400_1" format="X8" />
+    <field type="uint" name="m_unk_420_1" format="X8" />
+    <field type="int" name="m_castingTimeIndex" />
+    <field type="int" name="m_durationIndex" />
+    <field type="int" name="m_powerType" />
+    <field type="int" name="m_rangeIndex" />
+    <field type="float" name="m_speed" />
+    <field type="uint" name="m_spellVisualID_1" />
+    <field type="uint" name="m_spellVisualID_2" />
+    <field type="int" name="m_spellIconID" />
+    <field type="int" name="m_activeIconID" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_nameSubtext" />
+    <field type="string" name="m_description" />
+    <field type="string" name="m_auraDescription" />
+    <field type="int" name="m_schoolMask" />
+    <field type="int" name="m_runeCostID" />
+    <field type="int" name="m_spellMissileID" />
+    <field type="int" name="m_spellDescriptionVariableID" />
+    <field type="int" name="m_spellDifficultyID" />
+    <field type="float" name="m_unk_f1" />
+    <field type="int" name="m_spellScalingID" />
+    <field type="int" name="m_SpellAuraOptionsId" />
+    <field type="int" name="m_SpellAuraRestrictionsId" />
+    <field type="int" name="m_SpellCastingRequirementsId" />
+    <field type="int" name="m_SpellCategoriesId" />
+    <field type="int" name="m_SpellClassOptionsId" />
+    <field type="int" name="m_SpellCooldownsId" />
+    <field type="int" name="m_unk_i1" />
+    <field type="int" name="m_SpellEquippedItemsId" />
+    <field type="int" name="m_SpellInterruptsId" />
+    <field type="int" name="m_SpellLevelsId" />
+    <field type="int" name="m_SpellPowerId" />
+    <field type="int" name="m_SpellReagentsId" />
+    <field type="int" name="m_SpellShapeshiftId" />
+    <field type="int" name="m_SpellTargetRestrictionsId" />
+    <field type="int" name="m_SpellTotemsId" />
+    <field type="int" name="m_ResearchProjectId" />
   </Spell>
   <SpellAuraNames build="0">
     <index>
@@ -1496,16 +1542,16 @@
   </LFGDungeonGroup>
   <LFGDungeons build="13750">
     <index>
-      <primary>field0</primary>
+      <primary>m_Id</primary>
     </index>
-    <field type="int" name="field0" />
+    <field type="int" name="m_Id" />
     <field type="string" name="field1" />
     <field type="int" name="field2" />
     <field type="int" name="field3" />
     <field type="int" name="field4" />
     <field type="int" name="field5" />
     <field type="int" name="field6" />
-    <field type="int" name="field7" />
+    <field type="int" name="m_mapId" />
     <field type="int" name="field8" />
     <field type="int" name="field9" />
     <field type="int" name="field10" />
@@ -1666,46 +1712,46 @@
   </SpellRadius>
   <SpellItemEnchantment build="12340">
     <index>
-      <primary>field0</primary>
+      <primary>m_ID</primary>
     </index>
-    <field type="int" name="field0" />
-    <field type="int" name="field1" />
-    <field type="int" name="field2" />
-    <field type="int" name="field3" />
-    <field type="int" name="field4" />
-    <field type="int" name="field5" />
-    <field type="int" name="field6" />
-    <field type="int" name="field7" />
-    <field type="int" name="field8" />
-    <field type="int" name="field9" />
-    <field type="int" name="field10" />
-    <field type="int" name="field11" />
-    <field type="int" name="field12" />
-    <field type="int" name="field13" />
-    <field type="int" name="field14" />
-    <field type="int" name="field15" />
-    <field type="int" name="field16" />
-    <field type="int" name="field17" />
-    <field type="int" name="field18" />
-    <field type="int" name="field19" />
-    <field type="int" name="field20" />
-    <field type="int" name="field21" />
-    <field type="int" name="field22" />
-    <field type="int" name="field23" />
-    <field type="int" name="field24" />
-    <field type="int" name="field25" />
-    <field type="int" name="field26" />
-    <field type="int" name="field27" />
-    <field type="int" name="field28" />
-    <field type="int" name="field29" />
-    <field type="int" name="field30" />
-    <field type="int" name="field31" />
-    <field type="int" name="field32" />
-    <field type="int" name="field33" />
-    <field type="int" name="field34" />
-    <field type="int" name="field35" />
-    <field type="int" name="field36" />
-    <field type="int" name="field37" />
+    <field type="int" name="m_ID" />
+    <field type="int" name="m_charges" />
+    <field type="int" name="m_effect_1" />
+    <field type="int" name="m_effect_2" />
+    <field type="int" name="m_effect_3" />
+    <field type="int" name="m_effectPointsMin_1" />
+    <field type="int" name="m_effectPointsMin_2" />
+    <field type="int" name="m_effectPointsMin_3" />
+    <field type="int" name="m_effectPointsMax_1" />
+    <field type="int" name="m_effectPointsMax_2" />
+    <field type="int" name="m_effectPointsMax_3" />
+    <field type="int" name="m_effectArg_1" />
+    <field type="int" name="m_effectArg_2" />
+    <field type="int" name="m_effectArg_3" />
+    <field type="string" name="m_name_lang_1" />
+    <field type="int" name="m_name_lang_2" />
+    <field type="int" name="m_name_lang_3" />
+    <field type="int" name="m_name_lang_4" />
+    <field type="int" name="m_name_lang_5" />
+    <field type="int" name="m_name_lang_6" />
+    <field type="int" name="m_name_lang_7" />
+    <field type="int" name="m_name_lang_8" />
+    <field type="int" name="m_name_lang_9" />
+    <field type="int" name="m_name_lang_10" />
+    <field type="int" name="m_name_lang_11" />
+    <field type="int" name="m_name_lang_12" />
+    <field type="int" name="m_name_lang_13" />
+    <field type="int" name="m_name_lang_14" />
+    <field type="int" name="m_name_lang_15" />
+    <field type="int" name="m_name_lang_16" />
+    <field type="int" name="m_name_flags" />
+    <field type="int" name="m_itemVisual" />
+    <field type="int" name="m_flags" />
+    <field type="int" name="m_src_itemID" />
+    <field type="int" name="m_condition_id" />
+    <field type="int" name="m_requiredSkillID" />
+    <field type="int" name="m_requiredSkillRank" />
+    <field type="int" name="m_minLevel" />
   </SpellItemEnchantment>
   <GemProperties build="12340">
     <index>
@@ -1856,4 +1902,450 @@
     <field type="float" name="m_ambient_multiplier" />
     <field type="int" name="m_lightid" />
   </AreaTable>
+  <LFGDungeons build="12340">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="string" name="field1" />
+    <field type="int" name="newField11" />
+    <field type="int" name="newField12" />
+    <field type="int" name="newField13" />
+    <field type="int" name="newField14" />
+    <field type="int" name="newField15" />
+    <field type="int" name="newField16" />
+    <field type="int" name="newField17" />
+    <field type="int" name="newField18" />
+    <field type="int" name="newField19" />
+    <field type="int" name="newField110" />
+    <field type="int" name="newField111" />
+    <field type="int" name="newField112" />
+    <field type="int" name="newField113" />
+    <field type="int" name="newField114" />
+    <field type="int" name="newField115" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+    <field type="int" name="field5" />
+    <field type="int" name="field6" />
+    <field type="int" name="field7" />
+    <field type="int" name="field8" />
+    <field type="int" name="field9" />
+    <field type="int" name="field10" />
+    <field type="int" name="field11" />
+    <field type="string" name="field12" />
+    <field type="int" name="newField21" />
+    <field type="int" name="newField22" />
+    <field type="int" name="newField23" />
+    <field type="int" name="newField24" />
+    <field type="int" name="newField25" />
+    <field type="int" name="newField26" />
+    <field type="int" name="newField27" />
+    <field type="int" name="newField28" />
+    <field type="int" name="newField29" />
+    <field type="int" name="newField210" />
+    <field type="int" name="newField211" />
+    <field type="int" name="newField212" />
+    <field type="int" name="newField213" />
+    <field type="int" name="newField214" />
+    <field type="int" name="newField215" />
+    <field type="int" name="field13" />
+    <field type="int" name="field14" />
+    <field type="int" name="field15" />
+    <field type="int" name="field16" />
+    <field type="int" name="field17" />
+    <field type="int" name="newField" />
+  </LFGDungeons>
+  <AuctionHouse build="12340">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="string" name="field4" />
+    <field type="int" name="field5" />
+    <field type="int" name="field6" />
+    <field type="int" name="field7" />
+    <field type="int" name="field8" />
+    <field type="int" name="field9" />
+    <field type="int" name="field10" />
+    <field type="int" name="field11" />
+    <field type="int" name="field12" />
+    <field type="int" name="field13" />
+    <field type="int" name="field14" />
+    <field type="int" name="field15" />
+    <field type="int" name="field16" />
+    <field type="int" name="field17" />
+    <field type="int" name="field18" />
+    <field type="int" name="field19" />
+    <field type="int" name="field20" />
+  </AuctionHouse>
+  <world_PVP_Area build="13914">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+    <field type="int" name="field5" />
+    <field type="int" name="field6" />
+  </world_PVP_Area>
+  <WorldSafeLocs build="13914">
+    <index>
+      <primary>id</primary>
+    </index>
+    <field type="uint" name="id" />
+    <field type="uint" name="map" />
+    <field type="float" name="pos_x" />
+    <field type="float" name="pos_y" />
+    <field type="float" name="pos_z" />
+    <field type="string" name="m_name_lang" />
+  </WorldSafeLocs>
+  <WMOAreaTable build="13914">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+    <field type="int" name="field5" />
+    <field type="int" name="field6" />
+    <field type="int" name="field7" />
+    <field type="int" name="field8" />
+    <field type="int" name="field9" />
+    <field type="int" name="field10" />
+    <field type="string" name="field11" />
+    <field type="int" name="field12" />
+    <field type="int" name="field13" />
+    <field type="int" name="field14" />
+  </WMOAreaTable>
+  <SpellDifficulty build="12340">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_spell_1" />
+    <field type="int" name="m_spell_2" />
+    <field type="int" name="m_spell_3" />
+    <field type="int" name="m_spell_4" />
+  </SpellDifficulty>
+  <ItemDisplayInfo build="13914">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+    <field type="int" name="field5" />
+    <field type="int" name="field6" />
+    <field type="int" name="field7" />
+    <field type="int" name="field8" />
+    <field type="int" name="field9" />
+    <field type="int" name="field10" />
+    <field type="int" name="field11" />
+    <field type="int" name="field12" />
+    <field type="int" name="field13" />
+    <field type="int" name="field14" />
+    <field type="int" name="field15" />
+    <field type="int" name="field16" />
+    <field type="int" name="field17" />
+    <field type="int" name="field18" />
+    <field type="int" name="field19" />
+    <field type="int" name="field20" />
+    <field type="int" name="field21" />
+    <field type="int" name="field22" />
+    <field type="int" name="field23" />
+    <field type="int" name="field24" />
+  </ItemDisplayInfo>
+  <ItemNameDescription build="14002">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="string" name="field1" />
+    <field type="int" name="field2" />
+  </ItemNameDescription>
+  <JournalEncounter build="14002">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_mapId" />
+    <field type="int" name="m_areaId" />
+    <field type="int" name="m_sectionId" />
+    <field type="int" name="m_instanceId" />
+    <field type="int" name="m_index" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+  </JournalEncounter>
+  <JournalEncounterCreature build="14002">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_encounterId" />
+    <field type="int" name="m_modelId" />
+    <field type="int" name="m_index" />
+    <field type="int" name="field4" />
+    <field type="string" name="m_name" />
+    <field type="int" name="field6" />
+  </JournalEncounterCreature>
+  <JournalEncounterItem build="14002">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_encounterId" />
+    <field type="int" name="m_itemId" />
+    <field type="int" name="m_difficulty" />
+  </JournalEncounterItem>
+  <JournalEncounterSection build="14002">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_encounterId" />
+    <field type="int" name="m_section1" />
+    <field type="int" name="m_section2" />
+    <field type="int" name="m_section3" />
+    <field type="int" name="m_index" />
+    <field type="int" name="field6" />
+    <field type="int" name="m_flags" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+    <field type="int" name="field10" />
+    <field type="int" name="m_modelId" />
+    <field type="int" name="field12" />
+  </JournalEncounterSection>
+  <JournalInstance build="14002">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_mapId" />
+    <field type="int" name="m_areaId" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+  </JournalInstance>
+  <PlayerCondition build="14002">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="string" name="field1" />
+  </PlayerCondition>
+  <JournalEncounter build="14133">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_dungeonMapId" />
+    <field type="float" name="m_unkFloat1" />
+    <field type="float" name="m_unkFloat2" />
+    <field type="int" name="m_sectionId" />
+    <field type="int" name="m_instanceId" />
+    <field type="int" name="m_index" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+  </JournalEncounter>
+  <AreaAssignment build="14133">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+  </AreaAssignment>
+  <JournalInstance build="14133">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_mapId" />
+    <field type="int" name="m_areaId" />
+    <field type="int" name="m_unk1" />
+    <field type="int" name="m_unk2" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+  </JournalInstance>
+  <DungeonEncounter build="14133">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+    <field type="string" name="field5" />
+    <field type="int" name="field6" />
+    <field type="int" name="field7" />
+  </DungeonEncounter>
+  <DungeonMap build="14133">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="float" name="field3" />
+    <field type="float" name="field4" />
+    <field type="float" name="field5" />
+    <field type="float" name="field6" />
+    <field type="int" name="field7" />
+  </DungeonMap>
+  <SpellCooldowns build="14002">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_categoryRecoveryTime" />
+    <field type="int" name="m_recoveryTime" />
+    <field type="int" name="m_startRecoveryTime" />
+  </SpellCooldowns>
+  <gameobjectcache build="14007">
+    <field type="int" name="entry" />
+    <field type="int" name="type" />
+    <field type="int" name="displayid" />
+    <field type="string" name="name" />
+    <field type="string" name="name2" />
+    <field type="string" name="name3" />
+    <field type="string" name="name4" />
+    <field type="string" name="iconName" />
+    <field type="string" name="castBarCaption" />
+    <field type="string" name="unk1String" />
+    <field type="int" name="newField1" />
+    <field type="int" name="newField2" />
+    <field type="int" name="newField3" />
+    <field type="int" name="newField4" />
+    <field type="int" name="newField5" />
+    <field type="int" name="newField6" />
+    <field type="int" name="newField7" />
+    <field type="int" name="newField8" />
+    <field type="int" name="newField9" />
+    <field type="int" name="newField10" />
+    <field type="int" name="newField11" />
+    <field type="int" name="newField12" />
+    <field type="int" name="newField13" />
+    <field type="int" name="newField14" />
+    <field type="int" name="newField15" />
+    <field type="int" name="newField16" />
+    <field type="int" name="newField17" />
+    <field type="int" name="newField18" />
+    <field type="int" name="newField19" />
+    <field type="int" name="newField20" />
+    <field type="int" name="newField21" />
+    <field type="int" name="newField22" />
+    <field type="int" name="newField23" />
+    <field type="int" name="newField24" />
+    <field type="int" name="newField25" />
+    <field type="int" name="newField26" />
+    <field type="int" name="newField27" />
+    <field type="int" name="newField28" />
+    <field type="int" name="newField29" />
+    <field type="int" name="newField30" />
+    <field type="int" name="newField31" />
+    <field type="int" name="newField32" />
+    <field type="float" name="size" />
+    <field type="int" name="questItem1" />
+    <field type="int" name="questItem2" />
+    <field type="int" name="questItem3" />
+    <field type="int" name="questItem4" />
+    <field type="int" name="questItem5" />
+    <field type="int" name="questItem6" />
+    <field type="int" name="unk1" />
+  </gameobjectcache>
+  <Lock build="14007">
+    <index>
+      <primary>field0</primary>
+    </index>
+    <field type="int" name="field0" />
+    <field type="int" name="field1" />
+    <field type="int" name="field2" />
+    <field type="int" name="field3" />
+    <field type="int" name="field4" />
+    <field type="int" name="field5" />
+    <field type="int" name="field6" />
+    <field type="int" name="field7" />
+    <field type="int" name="field8" />
+    <field type="int" name="field9" />
+    <field type="int" name="field10" />
+    <field type="int" name="field11" />
+    <field type="int" name="field12" />
+    <field type="int" name="field13" />
+    <field type="int" name="field14" />
+    <field type="int" name="field15" />
+    <field type="int" name="field16" />
+    <field type="int" name="field17" />
+    <field type="int" name="field18" />
+    <field type="int" name="field19" />
+    <field type="int" name="field20" />
+    <field type="int" name="field21" />
+    <field type="int" name="field22" />
+    <field type="int" name="field23" />
+    <field type="int" name="field24" />
+    <field type="int" name="field25" />
+    <field type="int" name="field26" />
+    <field type="int" name="field27" />
+    <field type="int" name="field28" />
+    <field type="int" name="field29" />
+    <field type="int" name="field30" />
+    <field type="int" name="field31" />
+    <field type="int" name="field32" />
+  </Lock>
+  <JournalEncounter build="14288">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_dungeonMapId" />
+    <field type="int" name="newField1" />
+    <field type="float" name="m_unkFloat1" />
+    <field type="float" name="m_unkFloat2" />
+    <field type="int" name="m_sectionId" />
+    <field type="int" name="m_instanceId" />
+    <field type="int" name="m_index" />
+    <field type="int" name="newField2" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+  </JournalEncounter>
+  <JournalEncounterItem build="14288">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_encounterId" />
+    <field type="int" name="m_itemId" />
+    <field type="int" name="m_difficulty" />
+    <field type="int" name="newField1" />
+  </JournalEncounterItem>
+  <JournalEncounterSection build="14288">
+    <index>
+      <primary>m_id</primary>
+    </index>
+    <field type="int" name="m_id" />
+    <field type="int" name="m_encounterId" />
+    <field type="int" name="m_section1" />
+    <field type="int" name="m_section2" />
+    <field type="int" name="m_section3" />
+    <field type="int" name="m_index" />
+    <field type="int" name="field6" />
+    <field type="int" name="newField1" />
+    <field type="int" name="m_flags" />
+    <field type="string" name="m_name" />
+    <field type="string" name="m_description" />
+    <field type="int" name="field10" />
+    <field type="int" name="m_modelId" />
+    <field type="int" name="field12" />
+  </JournalEncounterSection>
 </DBFilesClient>

@@ -3,7 +3,7 @@ using System;
 namespace WoWPacketViewer.Parsers.Spells
 {
     [Flags]
-    internal enum CastFlags : uint
+    enum CastFlags : uint
     {
         CAST_FLAG_00 = 0x00000000,
         CAST_FLAG_01 = 0x00000001,

@@ -1,6 +1,6 @@
 namespace WoWPacketViewer.Parsers.Warden
 {
-    internal struct CheckInfo
+    struct CheckInfo
     {
         public int m_length;
         public CheckType m_type;

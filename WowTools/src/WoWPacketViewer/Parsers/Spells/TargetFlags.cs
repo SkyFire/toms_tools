@@ -3,7 +3,7 @@ using System;
 namespace WoWPacketViewer.Parsers.Spells
 {
     [Flags]
-    internal enum TargetFlags : uint
+    enum TargetFlags : uint
     {
         TARGET_FLAG_SELF = 0x00000000,
         TARGET_FLAG_UNUSED1 = 0x00000001,               // not used in any spells as of 3.0.3 (can be set dynamically)

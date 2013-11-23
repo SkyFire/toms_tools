@@ -23,14 +23,6 @@ namespace Blizzard
             return true;
         }
 
-        public static void SetBytes(this byte[] data, byte[] newData, int offset)
-        {
-            for (int i = 0; i < newData.Length; ++i)
-            {
-                data[offset + i] = newData[i];
-            }
-        }
-
         public static T ReadStruct<T>(this BinaryReader reader) where T : struct
         {
             byte[] rawData = reader.ReadBytes(Marshal.SizeOf(typeof(T)));

@@ -1,18 +1,12 @@
-using System.IO;
 using WowTools.Core;
 
 namespace WoWPacketViewer.Parsers.Spells
 {
-    internal abstract class SpellParserBase : Parser
+    abstract class SpellParserBase : Parser
     {
-        protected SpellParserBase(Packet packet)
-            : base(packet)
+        protected TargetFlags ReadTargets()
         {
-        }
-
-        protected TargetFlags ReadTargets(BinaryReader br)
-        {
-            var tf = (TargetFlags) br.ReadUInt32();
+            var tf = (TargetFlags) Reader.ReadUInt32();
             AppendFormatLine("TargetFlags: {0}", tf);
 
             if (tf.HasFlag(TargetFlags.TARGET_FLAG_UNIT) ||
@@ -21,29 +15,30 @@ namespace WoWPacketViewer.Parsers.Spells
                 tf.HasFlag(TargetFlags.TARGET_FLAG_CORPSE) ||
                 tf.HasFlag(TargetFlags.TARGET_FLAG_UNK2))
             {
-                AppendFormatLine("ObjectTarget: 0x{0:X16}", br.ReadPackedGuid());
+                AppendFormatLine("ObjectTarget: 0x{0:X16}", Reader.ReadPackedGuid());
             }
 
             if (tf.HasFlag(TargetFlags.TARGET_FLAG_ITEM) ||
                 tf.HasFlag(TargetFlags.TARGET_FLAG_TRADE_ITEM))
             {
-                AppendFormatLine("ItemTarget: 0x{0:X16}", br.ReadPackedGuid());
+                AppendFormatLine("ItemTarget: 0x{0:X16}", Reader.ReadPackedGuid());
             }
 
             if (tf.HasFlag(TargetFlags.TARGET_FLAG_SOURCE_LOCATION))
             {
-                AppendFormatLine("SrcTarget: {0} {1} {2}", br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                AppendFormatLine("SrcTargetGuid: {0}", Reader.ReadPackedGuid().ToString("X16"));
+                AppendFormatLine("SrcTarget: {0} {1} {2}", Reader.ReadSingle(), Reader.ReadSingle(), Reader.ReadSingle());
             }
 
             if (tf.HasFlag(TargetFlags.TARGET_FLAG_DEST_LOCATION))
             {
-                AppendFormatLine("DstTargetGuid: {0}", br.ReadPackedGuid().ToString("X16"));
-                AppendFormatLine("DstTarget: {0} {1} {2}", br.ReadSingle(), br.ReadSingle(), br.ReadSingle());
+                AppendFormatLine("DstTargetGuid: {0}", Reader.ReadPackedGuid().ToString("X16"));
+                AppendFormatLine("DstTarget: {0} {1} {2}", Reader.ReadSingle(), Reader.ReadSingle(), Reader.ReadSingle());
             }
 
             if (tf.HasFlag(TargetFlags.TARGET_FLAG_STRING))
             {
-                AppendFormatLine("StringTarget: {0}", br.ReadCString());
+                AppendFormatLine("StringTarget: {0}", Reader.ReadCString());
             }
 
             return tf;

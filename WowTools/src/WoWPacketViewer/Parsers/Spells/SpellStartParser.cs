@@ -3,37 +3,30 @@
 namespace WoWPacketViewer.Parsers.Spells
 {
     [Parser(OpCodes.SMSG_SPELL_START)]
-    internal class SpellStartParser : SpellParserBase
+    class SpellStartParser : SpellParserBase
     {
-        public SpellStartParser(Packet packet)
-            : base(packet)
-        {
-        }
-
         public override void Parse()
         {
-            var gr = Packet.CreateReader();
-
-            AppendFormatLine("Caster: 0x{0:X16}", gr.ReadPackedGuid());
-            AppendFormatLine("Target: 0x{0:X16}", gr.ReadPackedGuid());
-            AppendFormatLine("Pending Cast: {0}", gr.ReadByte());
-            AppendFormatLine("Spell Id: {0}", gr.ReadUInt32());
-            var cf = (CastFlags)gr.ReadUInt32();
+            AppendFormatLine("Caster: 0x{0:X16}", Reader.ReadPackedGuid());
+            AppendFormatLine("Target: 0x{0:X16}", Reader.ReadPackedGuid());
+            AppendFormatLine("Pending Cast: {0}", Reader.ReadByte());
+            AppendFormatLine("Spell Id: {0}", Reader.ReadUInt32());
+            var cf = (CastFlags)Reader.ReadUInt32();
             AppendFormatLine("Cast Flags: {0}", cf);
-            AppendFormatLine("Timer: {0}", gr.ReadUInt32());
+            AppendFormatLine("Timer: {0}", Reader.ReadUInt32());
 
-            ReadTargets(gr);
+            ReadTargets();
 
             if (cf.HasFlag(CastFlags.CAST_FLAG_12))
             {
-                AppendFormatLine("PredictedPower: {0}", gr.ReadUInt32());
+                AppendFormatLine("PredictedPower: {0}", Reader.ReadUInt32());
             }
 
             if (cf.HasFlag(CastFlags.CAST_FLAG_22))
             {
-                var v1 = gr.ReadByte();
+                var v1 = Reader.ReadByte();
                 AppendFormatLine("RuneState Before: {0}", (CooldownMask)v1);
-                var v2 = gr.ReadByte();
+                var v2 = Reader.ReadByte();
                 AppendFormatLine("RuneState Now: {0}", (CooldownMask)v2);
 
                 for (var i = 0; i < 6; ++i)
@@ -44,7 +37,7 @@ namespace WoWPacketViewer.Parsers.Spells
                     {
                         if ((v3 & v2) == 0)
                         {
-                            var v4 = gr.ReadByte();
+                            var v4 = Reader.ReadByte();
                             AppendFormatLine("Cooldown for {0} is {1}", (CooldownMask)v3, v4);
                         }
                     }
@@ -53,10 +46,8 @@ namespace WoWPacketViewer.Parsers.Spells
 
             if (cf.HasFlag(CastFlags.CAST_FLAG_06))
             {
-                AppendFormatLine("Projectile displayid {0}, inventoryType {1}", gr.ReadUInt32(), gr.ReadUInt32());
+                AppendFormatLine("Projectile displayid {0}, inventoryType {1}", Reader.ReadUInt32(), Reader.ReadUInt32());
             }
-
-            CheckPacket(gr);
         }
     }
 }

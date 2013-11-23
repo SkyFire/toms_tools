@@ -3,7 +3,7 @@ using System;
 namespace WoWPacketViewer.Parsers.Spells
 {
     [Flags]
-    internal enum CooldownMask : byte
+    enum CooldownMask : byte
     {
         RUNE_NONE = 0,
         RUNE_BLOOD_0 = 1,
